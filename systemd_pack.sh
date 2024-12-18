@@ -2,23 +2,25 @@
 
 # Auto-generate systemd services for factorio server configs
 
-# 1: Systemd folder (we need to have rights to write to that folder)
-# 2: Bundle path
-# 3: Server version
-# 4: UID (config name)
+# 1: Bundle path
+# 2: Server version
+# 3: UID (config name)
 
-[ "$#" -ne 4 ] && {
-	echo "Usage: $0 [systemd_folder] [bundle] [server version] [config name]" >&2;
+[ "$#" -ne 3 ] && {
+	echo "Usage: $0 [bundle] [server version] [config name]" >&2;
 	exit 1;
 }
 
-systemd_folder="$1"
-bundle_path="$2"
-server_version="$3"
-config_uid="$4"
+
+# Import global symbols
+source ./env.sh
+
+bundle_path="$1"
+server_version="$2"
+config_uid="$3"
 
 systemd_filename="factorio_${config_uid}.service"
-systemd_service="${systemd_folder}/${systemd_filename}"
+systemd_service="${SERVICES_FOLDER}/${systemd_filename}"
 
 # TODO: Check that the provided version is a correct server version
 # TODO:  Check that the bundle is a valid factorio bundle 
@@ -30,7 +32,7 @@ systemd_service="${systemd_folder}/${systemd_filename}"
 }
 
 # Generate the systemd service
-cat > "test.service" << EOF
+cat > "${systemd_service}" << EOF
 # This file was generated with factorio_pack.sh
 # Do not edit the path to FactorioManager, or move FactorioManager, or the links will be broken
 
@@ -40,7 +42,7 @@ After= network.target
 StartLimitIntervalSec=0
 
 [Service]
-ExecStart=/home/user/FactorioManager/jumpstart.sh "$bundle_path" "$server_version"
+ExecStart=${FACTORIO_MANAGER_SYMLINK}/jumpstart.sh "$bundle_path" "$server_version"
 User=user
 Restart=always
 RestartSec=1

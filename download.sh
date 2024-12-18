@@ -3,6 +3,11 @@
 # Downloads the mentioned factorio version in the current directory
 # Checks for the SHAsum of the downloaded version as well
 
+[ "$#" -ne 2 ] && {
+	echo "Usage: $0 [version] [target_directory]" >&2;
+	exit 1;
+}
+
 version="$1"
 target_dir="$2"
 
