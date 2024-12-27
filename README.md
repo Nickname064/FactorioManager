@@ -12,12 +12,14 @@
 - Servers
     > Contains different versions of factorio (headless server version)
     > Save data is externalised, to make switching versions easier
-- Mods
+- Mods (TODO)
     > Contains mods for a specific version of factorio
     > Building in progress (needs to automate mod download and mod management)
 - Services
     > To make server management easier, each configuration has a systemd service associated to it
     > This folder contains those services
+- Bundles (not necessarily stored here)
+    > Each bundle is a factorio save and its settings
 
 # Individual Commands
 

@@ -6,6 +6,3 @@ source ./env.sh
 
 echo "Removing the factorio-manager symlink (${FACTORIO_MANAGER_SYMLINK})";
 rm "$FACTORIO_MANAGER_SYMLINK";
-
-echo "Removing the systemd services symlink (${SYSTEMD_SYMLINK})";
-sudo rm -f "$SYSTEMD_SYMLINK";
