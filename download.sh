@@ -8,7 +8,7 @@ target_dir="$2"
 
 echo "Downloading factorio version ${version} into ${target_dir}"
 
-download_dir=$(mktemp -d)
+download_dir=$(mktemp -d) # We download into a temporary dir, then extract the archive to the target dir
 download_name="factorio-server-${version}"
 
 # 1 line = 1 shasum
@@ -18,16 +18,21 @@ shasum_url='https://factorio.com/download/sha256sums'
 # TODO: Add checksumming
 # TODO: Verify that the downloaded version doesn't already exist
 
+#rm -rf "${target_dir}/${download_name}";
+#mkdir "${target_dir}/${download_name}" || { echo "Couldn't create directory for server"; exit 2; }
+
 echo "Downloading into ${download_dir}"
+mkdir "${target_dir}/${download_name}"
 
 # Download packed archive
-aria2c "https://factorio.com/get-download/${version}/headless/linux64" -o "${download_name}.tar.gz" -d "${download_dir}"
+aria2c "https://factorio.com/get-download/${version}/headless/linux64" \
+  -d "${download_dir}" \
+  -o "${download_name}"
 
-# Unzip it into our target directory
-tar -xf "${download_dir}/${download_name}.tar.gz"
+# Extract it
+tar -xf "${download_dir}/${download_name}" \
+  -C "${target_dir}/${download_name}" \
+  --strip-components 1
 
-# Delete the packed archive
-rm -f "${download_dir}/${download_name}.tar.gz"
-
-# Move the unzipped version into our target directory
-# mv $(echo ${download_dir}/*) "${target_dir}/${download_name}" >/dev/null
+# Delete the archive
+rm -rf "${download_dir}"

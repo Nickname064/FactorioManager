@@ -15,7 +15,7 @@
 # Import global symbols
 source ./env.sh
 
-bundle_path="$1"
+bundle_path=$(realpath "$1")
 server_version="$2"
 config_uid="$3"
 
@@ -43,7 +43,6 @@ StartLimitIntervalSec=0
 
 [Service]
 ExecStart=${FACTORIO_MANAGER_SYMLINK}/jumpstart.sh "$bundle_path" "$server_version"
-User=user
 Restart=always
 RestartSec=1
 

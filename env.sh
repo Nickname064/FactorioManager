@@ -7,5 +7,5 @@ SYSTEMD_SYMLINK="/etc/systemd/user/services"
 
 MANAGER_DIR="$(dirname $0)"
 
-SERVICES_FOLDER="${HOME}/.config/systemd"
+SERVICES_FOLDER="${HOME}/.config/systemd/user"
 SERVERS_FOLDER="${MANAGER_DIR}/servers"
